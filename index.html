@@ -6,9 +6,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script type="text/javascript" src="shoppinglist.js"></script>
+
+    <!-- extra -->
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1">      
+      <link rel = "stylesheet"
+         href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel = "stylesheet"
+         href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+      <script type = "text/javascript"
+         src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>           
+      <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+      </script> 
     <style>
       body{
-        background: black;
+        background: white;
       }
       h5{
         color:orange;
@@ -23,23 +34,22 @@
     </style>
   </head>
     <body ng-app="App" >
-  <center ng-controller="ShoppingListController">
-
+  <center ng-controller="ShoppingListController as ctrl1">
 
     <h3><strong>To Buy</strong></h3>
-    <div ng-if="!ToBuy.length"><p> <strong>Everything is bought!</strong> </p></div>
-    <div ng-repeat="item in ToBuy">
+    <div ng-if="!ctrl1.items.length"><p> <strong>Everything is bought!</strong> </p></div>
+    <div ng-repeat="item in ctrl1.items">
       <h5><strong>{{item.quantity}} of {{item.name}} </strong> 
       <div class="container" style="width: 10%;margin: 10px auto 10px auto;">
-      <button class="btn btn-success my-4 btn-block" ng-click="remove($index)"> Bought </button></h5>
+      <p class="z-depth-2"><button class="btn btn-success my-4 btn-block" ng-click="ctrl1.buyItem($index)"> Bought </button></p></h5>
     </div>
     </div>
 
-
+    <div ng-controller="ShoppingListBoughtController as ctrl2">
     <h3><strong>Already Bought</strong></h3>
-    <div ng-if="!AlreadyBought.length"><p> <strong>Nothing is bought </strong></p></div>
-    <div ng-repeat="item2 in AlreadyBought">
-      <h5><strong>{{item2.quantity}} of {{item2.name}} </strong>     </div>
+    <div ng-if="!ctrl2.items.length"><p> <strong>Nothing is bought </strong></p></div>
+    <div ng-repeat="item in ctrl2.items">
+      <h5><strong>{{item.quantity}} of {{item.name}} </strong>     </div>
 
 </center>
 </body>
