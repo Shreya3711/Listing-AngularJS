@@ -1,40 +1,44 @@
 var app = angular.module('App',[]);
 
 app.controller('ShoppingListController', ShoppingListController);
-ShoppingListController.$inject =['$scope']
-function ShoppingListController($scope, $index){
-	$scope.AlreadyBought = [];
+ShoppingListController.$inject =['ShoppingListCheckService']
+function ShoppingListController(ShoppingListCheckService){
+	this.items = ShoppingListCheckService.getToBuyList();
 
-	$scope.ToBuy = 
-		[{
-			name: "Cookie",
-			quantity: "12 bags"
-		},
-		{
-			name: "Cake",
-			quantity: "2 piece"
-		},
-		{
-			name: "Vegetables",
-			quantity: "3 kgs"
-		},
-		{
-			name: "Milk",
-			quantity: "2 bottles"
-		},
-		{
-			name: "Juice",
-			quantity: "5 bottles"
-		}];
-	$scope.remove = function($index){
-		$scope.name=$scope.ToBuy[$index].name;
-		$scope.quantity=$scope.ToBuy[$index].quantity;
-		$scope.item = {
-			name: $scope.name,
-			quantity: $scope.quantity
-		} 
-		$scope.ToBuy.splice($index, 1);
-		$scope.AlreadyBought.push($scope.item);
-		console.log($scope.AlreadyBought)
+	this.buyItem = function(index){
+		ShoppingListCheckService.buyItem(index);
 	}
 }
+
+app.controller('ShoppingListBoughtController', ShoppingListBoughtController);
+ShoppingListBoughtController.$inject =['ShoppingListCheckService']
+function ShoppingListBoughtController(ShoppingListCheckService){
+	this.items = ShoppingListCheckService.getAlreadyBoughtList();
+}
+
+app.service('ShoppingListCheckService', ShoppingListCheckService);
+function ShoppingListCheckService(){	
+		var ToBuy = 
+		[{name: "Cookie",quantity: "12 bags"},
+		{name: "Cake", quantity: "2 piece" },
+		{name: "Vegetables", quantity: "3 kgs"},
+		{name: "Milk", quantity: "2 bottles" },
+		{name: "Juice", quantity: "5 bottles"}];
+		var AlreadyBought= [];
+
+		this.buyItem = function(index){
+			var item = ToBuy[index];
+			ToBuy.splice(index,1);
+			AlreadyBought.push(item);
+		};
+
+		this.getToBuyList = function(){
+			return ToBuy;
+		};
+
+		this.getAlreadyBoughtList = function(){
+			return AlreadyBought;
+		};
+	}
+
+
